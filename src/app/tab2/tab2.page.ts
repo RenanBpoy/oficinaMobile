@@ -6,6 +6,8 @@ import { PokemonDetailComponent } from '../components/pokemon-detail/pokemon-det
 
 import { ModalController } from '@ionic/angular';
 
+import { StorageService } from '../services/storage.service';
+
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -14,7 +16,8 @@ import { ModalController } from '@ionic/angular';
 export class Tab2Page {
 
     constructor(private pokeapiService: PokeapiService,
-      private modalController: ModalController) {}
+      private modalController: ModalController,
+      private storageService: StorageService) {}
 
     async openPokemonDetail(pokemon: any) {
       const modal = await this.modalController.create({
@@ -22,6 +25,18 @@ export class Tab2Page {
         componentProps: { pokemon },
       });
       await modal.present();
+    }
+
+    async getPokemon() {
+      const id = this.pokeapiService.getRandomId(1, 1010);
+      this.pokeapiService.getPokemon(id).subscribe((data) => {
+        this.addPokemon(data);
+        this.openPokemonDetail(data);
+      });
+    }
+
+    async addPokemon(pokemonData: any) {
+      await this.storageService.addPokemon(pokemonData.id);
     }
 
 }
