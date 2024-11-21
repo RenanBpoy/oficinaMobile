@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { PokeapiService } from '../services/pokeapi.service';
 
 @Component({
   selector: 'app-tab1',
@@ -7,6 +9,17 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
-  constructor() {}
+  constructor(private pokeapiService: PokeapiService) {}
+
+  pokemonDataList: any[] = [];
+
+  ngOnInit() {
+    for(let i=0; i<15; i++){
+      const id = this.pokeapiService.getRandomId(1,1010);
+      this.pokeapiService.getPokemon(id).subscribe((data) => {
+        this.pokemonDataList.push(data)
+      });
+    }
+  }
 
 }
