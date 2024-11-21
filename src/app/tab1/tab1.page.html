@@ -14,7 +14,7 @@
     <ion-card-content >
       <ion-row>
         <ion-col *ngFor="let pokemon of pokemonDataList" size="4" >
-          <img [src]="pokemon.sprites.front_default" style="border: 2px solid yellow; background-color:white"/>
+          <img (click)="openPokemonDetail(pokemon)" [src]="pokemon.sprites.front_default" style="border: 2px solid yellow; background-color:white"/>
         </ion-col>
 
       </ion-row>

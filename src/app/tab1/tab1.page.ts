@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { PokeapiService } from '../services/pokeapi.service';
 
+import { PokemonDetailComponent } from '../components/pokemon-detail/pokemon-detail.component';
+
+import { ModalController } from '@ionic/angular';
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -9,7 +13,8 @@ import { PokeapiService } from '../services/pokeapi.service';
 })
 export class Tab1Page {
 
-  constructor(private pokeapiService: PokeapiService) {}
+  constructor(private pokeapiService: PokeapiService,
+    private modalController: ModalController) {}
 
   pokemonDataList: any[] = [];
 
@@ -20,6 +25,14 @@ export class Tab1Page {
         this.pokemonDataList.push(data)
       });
     }
+  }
+
+  async openPokemonDetail(pokemon: any) {
+    const modal = await this.modalController.create({
+      component: PokemonDetailComponent,
+      componentProps: { pokemon },
+    });
+    await modal.present();
   }
 
 }
